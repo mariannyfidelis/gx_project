@@ -1,13 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
+
+import '/widgets/Dashboard/controller/menu_controller_dash.dart';
+import '/widgets/Dashboard/controller/navigation_controller_dash.dart';
+
 import '/rotas.dart';
 import 'package:get/get.dart';
+import 'controllers/dados_controller.dart';
 import 'utils/paleta_cores.dart';
 import '/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'database/firestoreService.dart';
-import 'controllers/dados_controller.dart';
-import 'widgets/dashboard/controller/menu_controller_dash.dart';
-import 'widgets/dashboard/controller/navigation_controller_dash.dart';
 
 final ThemeData temaPadrao = ThemeData(
   primarySwatch: Colors.grey,
@@ -15,17 +18,17 @@ final ThemeData temaPadrao = ThemeData(
   accentColor: PaletaCores.corDestaque,
 );
 
-void main() {
+void main() async {
   //Está utilizando o GetX com Obs
   Get.put(MenuControllerDash());
   Get.put(NavigationControllerDash());
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final firestoreService = FirestoreService();
     return MultiProvider(
       providers: [
@@ -39,13 +42,12 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Plataforma XPER',
+        title: 'Plataforma GOX',
         theme: temaPadrao,
         home: LoginPage(
-          title: "XPER Web",
+          title: "App GOX Web - teste",
         ),
-        //initialRoute: "/login",
-        initialRoute: "/",
+        initialRoute: "/login",
         onGenerateRoute: Rotas.gerarRota,
       ),
     );
